@@ -14,7 +14,6 @@ function RegisterFields() {
     email: "",
     password: "",
   };
-
   const [formData, setFormData] = useState(Initial_State);
 
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
@@ -38,11 +37,31 @@ function RegisterFields() {
 
   const validate = () => {
     const newErrors = {};
-    if (!formData.fullname) newErrors.fullname = "Full Name is required";
-    if (!formData.phonenumber)
+    if (!formData.fullname){
+      newErrors.fullname = "Full Name is required";
+    }else if(formData.fullname.trim().length<2){
+        newErrors.fullname="Full Name must be at least 2 characters"
+    }
+    if (!formData.phonenumber){
       newErrors.phonenumber = "PhoneNumber is required";
-    if (!formData.email) newErrors.email = "Email is required";
-    if (!formData.password) newErrors.password = "Password is required";
+    }
+    else if(!/^[0-9]{10}$/.test(formData.phonenumber.replace(/[\s-]/g, ''))){
+        newErrors.phonenumber="Please enter a valid 10-digit phone number";
+    }
+    if (!formData.email)
+    {
+         newErrors.email = "Email is required";
+    }
+    else if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)){
+         newErrors.email = "Please enter a valid email address";
+    }
+   if (!formData.password) {
+    newErrors.password = "Password is required";
+  } else if (formData.password.length < 8) {
+    newErrors.password = "Password must be at least 8 characters";
+  } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/.test(formData.password)) {
+    newErrors.password = "Password must contain uppercase, lowercase, and number";
+  }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;

@@ -1,12 +1,195 @@
 
-import React from "react";
-
+import { Box, Button, Typography, Checkbox } from "@mui/material";
+import React, { useState } from "react";
+import logo from "../../assets/images/itype4home.png";
+import { NormalTextField } from "../../helpers/FormInputs";
+import lockIcon from "../../assets/registerIcons/lock.png";
+import EnvelopeIcon from "../../assets/registerIcons/envelope.png";
 
 function ParentLoginFields() {
+     const Initial_State = {
+        email: "",
+        password: "",
+      };
+    
+      const [formData, setFormData] = useState(Initial_State);
+    
+      const label = { inputProps: { "aria-label": "Checkbox demo" } };
+    
+      const handleChange = (e) => {
+        const { name, value } = e.target;
+        setFormData((prev) => ({
+          ...prev,
+          [name]: value,
+        }));
+        setErrors((prev) => ({ ...prev, [name]: "" }));
+      };
+    
+      const [errors, setErrors] = useState({});
+    
+      const handleSubmit = (e) => {
+        e.preventDefault();
+        if (!validate()) return;
+        alert("Form Submitted");
+      };
+    
+      const validate = () => {
+        const newErrors = {};
+        if (!formData.email) newErrors.email = "Email is required";
+        if (!formData.password) newErrors.password = "Password is required";
+    
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+      };
     
   return (
     <>
-      <h1>Parent Login</h1>
+      <Box
+      sx={{
+        display: "flex",
+        alignContent: "center",
+        justifyContent: "center",
+      }}
+    >
+      <Box
+        sx={{
+          marginLeft: "9.125rem",
+          marginRight: "9.125rem",
+          marginTop: "4rem",
+          marginBottom: "4rem",
+           width:'26.688rem'
+        }}
+      >
+        {/* logo */}
+        <Box sx={{ width: "8.19rem", height: "2rem" }}>
+          <img src={logo} alt="logo" />
+        </Box>
+        <Box
+          sx={{
+            marginTop: "2.5rem",
+          }}
+        >
+          <Box>
+            <Typography
+              sx={{
+                fontSize: "2rem",
+                fontWeight: "600",
+                fontFamily: "Poppins",
+                lineHeight: "2.75rem",
+                color: "#090705",
+              }}
+            >
+              Parent Login
+            </Typography>
+          </Box>
+          <Box>
+            <Typography
+              sx={{
+                fontSize: "1rem",
+                fontWeight: "400",
+                fontFamily: "Poppins",
+                lineHeight: "1.75rem",
+                color: "#09070580",
+              }}
+            >
+              Welcome back! please enter your details
+            </Typography>
+          </Box>
+        </Box>
+        
+        <Box component="form" onSubmit={handleSubmit}>
+          
+          <Box sx={{ marginTop: "1rem" }}>
+            <NormalTextField
+              type="text"
+              name="email"
+              placeholder="Email Address"
+              required
+              icon={EnvelopeIcon}
+              value={formData.email}
+              handleChange={handleChange}
+              error={errors.email}
+            />
+          </Box>
+          <Box sx={{ marginTop: "1rem" }}>
+            <NormalTextField
+              name="password"
+              value={formData.password}
+              handleChange={handleChange}
+              placeholder="Enter password"
+              isPassword={true}
+              icon={lockIcon}
+              error={errors.password}
+            />
+          </Box>
+         
+          <Box
+            sx={{
+              marginTop: "1.5rem",
+              display: "flex",
+              alignItems: "flex-start",
+            }}
+          >
+            <Box>
+              <Checkbox
+                {...label}
+                sx={{
+                  padding: "0 9px 0 0",
+                  "&.Mui-checked": {
+                    color: "#922C88",
+                  }
+                }}
+              />
+            </Box>
+            <Typography
+              sx={{
+                fontSize: "0.813rem",
+                fontWeight: "400",
+                fontFamily: "Poppins",
+                lineHeight: "1.25rem",
+              }}
+            >
+              Remember me
+            </Typography>
+          </Box>
+          <Box sx={{ marginTop: "2rem" }}>
+            <Button
+              sx={{
+                backgroundColor: "#922C88",
+                width: "100%",
+                color: "white",
+                height: "3rem",
+                borderRadius: "0.625rem",
+              }}
+              type="submit"
+            >
+             Sign in
+            </Button>
+          </Box>
+        </Box>
+
+        <Box
+          sx={{
+            marginTop: "1.5rem",
+            display: "flex",
+            alignContent: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Typography
+            sx={{
+              fontSize: "1rem",
+              fontWeight: "500",
+              fontFamily: "Poppins",
+              lineHeight: "1.5rem",
+            }}
+          >
+            Logging in as a child?
+            <span style={{ color: "#922C88",paddingLeft:'10px' }}>Click Here</span>
+          </Typography>
+        </Box>
+      </Box>
+    </Box>
     </>
   )
 }
