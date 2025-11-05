@@ -6,6 +6,7 @@ import { NormalTextField } from "../../helpers/FormInputs";
 import lockIcon from "../../assets/registerIcons/lock.png";
 import EnvelopeIcon from "../../assets/registerIcons/envelope.png";
 
+
 function ParentLoginFields() {
      const Initial_State = {
         email: "",
@@ -27,10 +28,11 @@ function ParentLoginFields() {
     
       const [errors, setErrors] = useState({});
     
-      const handleSubmit = (e) => {
+      const handleSubmit = async(e) => {
         e.preventDefault();
         if (!validate()) return;
-        alert("Form Submitted");
+        // alert("Form Submitted");
+      
       };
     
       const validate = () => {
@@ -160,6 +162,7 @@ function ParentLoginFields() {
                 color: "white",
                 height: "3rem",
                 borderRadius: "0.625rem",
+                textTransform:'none'
               }}
               type="submit"
             >
@@ -167,6 +170,19 @@ function ParentLoginFields() {
             </Button>
           </Box>
         </Box>
+         <Box sx={{marginTop:'1rem'}}>
+            <Typography
+              sx={{
+                fontSize: "1rem",
+                fontWeight: "400",
+                fontFamily: "Poppins",
+                lineHeight: "1.75rem",
+                color: "#922C88",
+              }}
+            >
+             Forget Password?
+            </Typography>
+          </Box>
 
         <Box
           sx={{
@@ -188,6 +204,23 @@ function ParentLoginFields() {
             <span style={{ color: "#922C88",paddingLeft:'10px' }}>Click Here</span>
           </Typography>
         </Box>
+         <Box sx={{ marginTop: "2rem" }}>
+            <Button
+              sx={{
+                backgroundColor: "white",
+                width: "100%",
+                color: "#922C88",
+                height: "3rem",
+                borderRadius: "0.625rem",
+                border:'1px solid #922C88',
+                textTransform:'none'
+
+              }}
+              type="submit"
+            >
+             Don't Have An Account? Sign Up
+            </Button>
+          </Box>
       </Box>
     </Box>
     </>

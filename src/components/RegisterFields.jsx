@@ -6,12 +6,16 @@ import lockIcon from "../assets/registerIcons/lock.png";
 import UserIcon from "../assets/registerIcons/user.png";
 import EnvelopeIcon from "../assets/registerIcons/envelope.png";
 import PhoneIcon from "../assets/registerIcons/phone.png";
+// import BASE_URL from "./services/axiosInstance";
+import { apiService } from "./services/apiService";
 
 function RegisterFields() {
   const Initial_State = {
-    fullname: "",
-    phonenumber: "",
+    first_name: "",
+    last_name: "",
+    phone: "",
     email: "",
+    postal_code: "",
     password: "",
   };
   const [formData, setFormData] = useState(Initial_State);
@@ -29,45 +33,62 @@ function RegisterFields() {
 
   const [errors, setErrors] = useState({});
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
-    alert("Form Submitted");
+
+    const result = await apiService.post("/register", formData);
+
+    if (result.success) {
+      console.log("Posted successfully", result.data);
+      alert("Job created successfully");
+    } else {
+      console.error("Error posting data:", result.error);
+      alert("Failed to create job!");
+    }
   };
 
   const validate = () => {
     const newErrors = {};
-    if (!formData.fullname){
-      newErrors.fullname = "Full Name is required";
-    }else if(formData.fullname.trim().length<2){
-        newErrors.fullname="Full Name must be at least 2 characters"
+    if (!formData.first_name) {
+      newErrors.first_name = "Full Name is required";
+    } else if (formData.first_name.trim().length < 2) {
+      newErrors.first_name = "Full Name must be at least 2 characters";
     }
-    if (!formData.phonenumber){
-      newErrors.phonenumber = "PhoneNumber is required";
+     if (!formData.last_name) {
+      newErrors.last_name = "Last Name is required";
+    } 
+    if (!formData.phone) {
+      newErrors.phone = "phone is required";
+    } else if (!/^[0-9]{10}$/.test(formData.phone.replace(/[\s-]/g, ""))) {
+      newErrors.phone = "Please enter a valid 10-digit phone number";
     }
-    else if(!/^[0-9]{10}$/.test(formData.phonenumber.replace(/[\s-]/g, ''))){
-        newErrors.phonenumber="Please enter a valid 10-digit phone number";
+      if (!formData.postal_code) {
+      newErrors.postal_code = "Postal Code is required";
+    } else if (formData.postal_code.trim().length < 6) {
+      newErrors.postal_code = "Postal Code must be at least 6 characters";
     }
-    if (!formData.email)
-    {
-         newErrors.email = "Email is required";
+    
+    if (!formData.email) {
+      newErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
     }
-    else if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)){
-         newErrors.email = "Please enter a valid email address";
+    if (!formData.password) {
+      newErrors.password = "Password is required";
+    } else if (formData.password.length < 8) {
+      newErrors.password = "Password must be at least 8 characters";
+    } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/.test(formData.password)) {
+      newErrors.password =
+        "Password must contain uppercase, lowercase, and number";
     }
-   if (!formData.password) {
-    newErrors.password = "Password is required";
-  } else if (formData.password.length < 8) {
-    newErrors.password = "Password must be at least 8 characters";
-  } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/.test(formData.password)) {
-    newErrors.password = "Password must contain uppercase, lowercase, and number";
-  }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
 
   //   console.log(formData);
+
   return (
     <Box
       sx={{
@@ -82,7 +103,7 @@ function RegisterFields() {
           marginRight: "9.125rem",
           marginTop: "4rem",
           marginBottom: "4rem",
-           width:'26.688rem'
+          width: "26.688rem",
         }}
       >
         {/* logo */}
@@ -108,30 +129,54 @@ function RegisterFields() {
             </Typography>
           </Box>
         </Box>
-        
+
         <Box component="form" onSubmit={handleSubmit}>
           <Box sx={{ marginTop: "2.75rem" }}>
             <NormalTextField
               type="text"
-              name="fullname"
+              name="first_name"
               placeholder="Full Name"
               required
               icon={UserIcon}
-              value={formData.fullname}
+              value={formData.first_name}
               handleChange={handleChange}
-              error={errors.fullname}
+              error={errors.first_name}
             />
           </Box>
           <Box sx={{ marginTop: "1rem" }}>
             <NormalTextField
               type="text"
-              name="phonenumber"
+              name="last_name"
+              placeholder="Last Name"
+              required
+              icon={UserIcon}
+              value={formData.last_name}
+              handleChange={handleChange}
+              error={errors.last_name}
+            />
+          </Box>
+          <Box sx={{ marginTop: "1rem" }}>
+            <NormalTextField
+              type="text"
+              name="phone"
               placeholder="Phone Number"
               required
               icon={PhoneIcon}
-              value={formData.phonenumber}
+              value={formData.phone}
               handleChange={handleChange}
-              error={errors.phonenumber}
+              error={errors.phone}
+            />
+          </Box>
+          <Box sx={{ marginTop: "1rem" }}>
+            <NormalTextField
+              type="text"
+              name="postal_code"
+              placeholder="Enter Zip"
+              required
+              // icon={UserIcon}
+              value={formData.postal_code}
+              handleChange={handleChange}
+              error={errors.postal_code}
             />
           </Box>
           <Box sx={{ marginTop: "1rem" }}>
@@ -245,7 +290,9 @@ function RegisterFields() {
             }}
           >
             Already have an account?
-            <span style={{ color: "#922C88",paddingLeft:'10px' }}>Sign In</span>
+            <span style={{ color: "#922C88", paddingLeft: "10px" }}>
+              Sign In
+            </span>
           </Typography>
         </Box>
       </Box>
