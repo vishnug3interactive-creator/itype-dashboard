@@ -1,4 +1,3 @@
-
 import { Box, Button, Typography, Checkbox } from "@mui/material";
 import React, { useState } from "react";
 import logo from "../../assets/images/itype4home.png";
@@ -7,55 +6,57 @@ import lockIcon from "../../assets/registerIcons/lock.png";
 import EnvelopeIcon from "../../assets/registerIcons/envelope.png";
 import { apiService } from "../services/apiService";
 import { Link } from "react-router-dom";
+import UserIcon from "../../assets/registerIcons/user.png";
 
-function ParentLoginFields() {
+
+function ChildLoginField() {
      const Initial_State = {
-        email: "",
-        password: "",
-      };
-    
-      const [formData, setFormData] = useState(Initial_State);
-    
-      const label = { inputProps: { "aria-label": "Checkbox demo" } };
-    
-      const handleChange = (e) => {
-        const { name, value } = e.target;
-        setFormData((prev) => ({
-          ...prev,
-          [name]: value,
-        }));
-        setErrors((prev) => ({ ...prev, [name]: "" }));
-      };
-    
-      const [errors, setErrors] = useState({});
-    
-      const handleSubmit = async(e) => {
-        e.preventDefault();
-        if (!validate()) return;
-        // alert("Form Submitted");
-        const result = await apiService.post("/login", formData);
+            parentcode: "",
+            childusername:"",
+            password: "",
+          };
         
-            if (result.success) {
-              console.log("Posted successfully", result.data);
-              alert("Job created successfully");
-            } else {
-              console.error("Error posting data:", result.error);
-              alert("Failed to create job!");
-            }
-      };
-    
-      const validate = () => {
-        const newErrors = {};
-        if (!formData.email) newErrors.email = "Email is required";
-        if (!formData.password) newErrors.password = "Password is required";
-    
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
-      };
-    
+          const [formData, setFormData] = useState(Initial_State);
+        
+          const label = { inputProps: { "aria-label": "Checkbox demo" } };
+        
+          const handleChange = (e) => {
+            const { name, value } = e.target;
+            setFormData((prev) => ({
+              ...prev,
+              [name]: value,
+            }));
+            setErrors((prev) => ({ ...prev, [name]: "" }));
+          };
+        
+          const [errors, setErrors] = useState({});
+        
+          const handleSubmit = async(e) => {
+            e.preventDefault();
+            if (!validate()) return;
+            // alert("Form Submitted");
+            const result = await apiService.post("/login", formData);
+            
+                if (result.success) {
+                  console.log("Posted successfully", result.data);
+                  alert("Job created successfully");
+                } else {
+                  console.error("Error posting data:", result.error);
+                  alert("Failed to create job!");
+                }
+          };
+        
+          const validate = () => {
+            const newErrors = {};
+            if (!formData.parentcode) newErrors.parentcode = "Parentcode is required";
+            if (!formData.password) newErrors.password = "Password is required";
+        
+            setErrors(newErrors);
+            return Object.keys(newErrors).length === 0;
+          };
   return (
     <>
-      <Box
+    <Box
       sx={{
         display: "flex",
         alignContent: "center",
@@ -90,7 +91,7 @@ function ParentLoginFields() {
                 color: "#090705",
               }}
             >
-              Parent Login
+              Child Login
             </Typography>
           </Box>
           <Box>
@@ -100,10 +101,24 @@ function ParentLoginFields() {
                 fontWeight: "400",
                 fontFamily: "Poppins",
                 lineHeight: "1.75rem",
-                color: "#09070580",
+                color: "#20180fd7",
               }}
             >
-              Welcome back! please enter your details
+             Login with your parent Code, Child Username, and Child Password
+            </Typography>
+          </Box>
+          
+           <Box sx={{mt:'1rem'}}>
+            <Typography
+              sx={{
+                fontSize: "1rem",
+                fontWeight: "400",
+                fontFamily: "Poppins",
+                lineHeight: "1.75rem",
+                color: "#20180fd7",
+              }}
+            >
+             All details can be accessed from the Parent Portal
             </Typography>
           </Box>
         </Box>
@@ -113,13 +128,27 @@ function ParentLoginFields() {
           <Box sx={{ marginTop: "1rem" }}>
             <NormalTextField
               type="text"
-              name="email"
-              placeholder="Email Address"
+              name="parentcode"
+              label="Parent Code (from Parent Portal)"
+              placeholder="From Parent Portal"
               required
               icon={EnvelopeIcon}
-              value={formData.email}
+              value={formData.parentcode}
               handleChange={handleChange}
-              error={errors.email}
+              error={errors.parentcode}
+            />
+          </Box>
+          <Box sx={{ marginTop: "1rem" }}>
+            <NormalTextField
+              type="text"
+              name="parentcode"
+              label="Child Username (e.g.johnsmith - not your email)"
+              placeholder="Child Username"
+              required
+              icon={UserIcon}
+              value={formData.parentcode}
+              handleChange={handleChange}
+              error={errors.parentcode}
             />
           </Box>
           <Box sx={{ marginTop: "1rem" }}>
@@ -127,7 +156,8 @@ function ParentLoginFields() {
               name="password"
               value={formData.password}
               handleChange={handleChange}
-              placeholder="Enter password"
+              label="Child Password (from Parent Portal)"
+              placeholder="Child Password"
               isPassword={true}
               icon={lockIcon}
               error={errors.password}
@@ -244,4 +274,4 @@ function ParentLoginFields() {
   )
 }
 
-export default ParentLoginFields
+export default ChildLoginField

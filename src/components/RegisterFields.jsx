@@ -7,6 +7,8 @@ import UserIcon from "../assets/registerIcons/user.png";
 import EnvelopeIcon from "../assets/registerIcons/envelope.png";
 import PhoneIcon from "../assets/registerIcons/phone.png";
 import { apiService } from "./services/apiService";
+import { Link } from "react-router-dom";
+
 
 function RegisterFields() {
   const Initial_State = {
@@ -264,6 +266,10 @@ function RegisterFields() {
                 color: "white",
                 height: "3rem",
                 borderRadius: "0.625rem",
+                textTransform:'none',
+                fontWeight:'600',
+                fontSize:'1rem',
+                lineHeight:'1.5rem'
               }}
               type="submit"
             >
@@ -280,7 +286,7 @@ function RegisterFields() {
             justifyContent: "center",
           }}
         >
-          <Typography
+         <Link to={'/'}>  <Typography
             sx={{
               fontSize: "1rem",
               fontWeight: "500",
@@ -289,10 +295,10 @@ function RegisterFields() {
             }}
           >
             Already have an account?
-            <span style={{ color: "#922C88", paddingLeft: "10px" }}>
+          <span style={{ color: "#922C88", paddingLeft: "10px" }}>
               Sign In
             </span>
-          </Typography>
+          </Typography></Link> 
         </Box>
       </Box>
     </Box>

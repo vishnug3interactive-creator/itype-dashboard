@@ -5,6 +5,7 @@ import { Eye, EyeOff } from 'lucide-react';
 
 export const NormalTextField = ({
   name,
+  label,
   value,
   handleChange,
   placeholder,
@@ -25,6 +26,19 @@ export const NormalTextField = ({
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+      {label && (
+        <Typography
+          sx={{
+            fontSize: "1rem",
+            fontWeight: 400,
+            lineHeight: "1.5rem",
+            color: "#4B5563",
+            fontFamily: "Poppins",
+          }}
+        >
+          {label}
+        </Typography>
+      )}
       <Box
         sx={{
           height: "3.5rem",
