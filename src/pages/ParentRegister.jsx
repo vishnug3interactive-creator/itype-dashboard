@@ -35,9 +35,8 @@ function ParentRegister() {
         <Box
           sx={{
             
-  
-            justifyContent: "center",
-            alignItems: "center",
+            // justifyContent: "center",
+            // alignItems: "center",
             minHeight: { xs: "100vh", md: "auto" },
             height: "100vh",
             padding: {

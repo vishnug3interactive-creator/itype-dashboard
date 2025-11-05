@@ -41,11 +41,11 @@ function RegisterFields() {
     const result = await apiService.post("/register", formData);
 
     if (result.success) {
-      console.log("Posted successfully", result.data);
-      alert("Job created successfully");
+      console.log("Account Created successfully", result.data);
+      alert("Account created successfully");
     } else {
       console.error("Error posting data:", result.error);
-      alert("Failed to create job!");
+      alert("Failed to Register!");
     }
   };
 

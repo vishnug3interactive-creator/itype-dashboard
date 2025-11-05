@@ -18,9 +18,6 @@ function ChildLogin() {
         {/* left section */}
         <Box
           sx={{
-          
-            justifyContent: "center",
-            alignItems: "center",
             minHeight: { xs: "100vh", md: "auto" },
             height: "100vh",
             padding: {
@@ -30,7 +27,6 @@ function ChildLogin() {
               lg: "2rem 4rem",
             },
             overflowY: "auto",
-          
           }}
         >
           <Box
@@ -55,7 +51,7 @@ function ChildLogin() {
         >
           <img
             src={childbanner}
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
+            style={{width: "100%", height: "100%", objectFit: "cover" }}
             alt="Logo"
           />
         </Box>

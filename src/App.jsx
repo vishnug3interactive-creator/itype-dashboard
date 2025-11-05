@@ -5,6 +5,8 @@ import ChildLogin from './pages/ChildLogin'
 import { Routes, Route} from 'react-router-dom';
 import ParentRegister from './pages/ParentRegister';
 import React from 'react';
+import DashboardPage from './pages/DashboardPage';
+import OtpPage from './pages/OtpPage';
 
 function App() {
 
@@ -15,6 +17,8 @@ function App() {
       <Route path="/" element={<ParentLogin />} />
       <Route path="/child" element={<ChildLogin/>}/>
       <Route path='/parent' element={<ParentRegister/>}/>
+      <Route path='/otp' element={<OtpPage/>}/>
+      <Route path='/dashboard' element={<DashboardPage/>}></Route>
 
       </Routes >
     </>

@@ -37,11 +37,11 @@ function ChildLoginField() {
     const result = await apiService.post("/student-login", formData);
 
     if (result.success) {
-      console.log("Posted successfully", result.data);
-      alert("Job created successfully");
+      console.log("Login successfully", result.data);
+      alert("User Login successfully");
     } else {
       console.error("Error posting data:", result.error);
-      alert("Failed to create job!");
+      alert("Failed to Login!");
     }
   };
 
