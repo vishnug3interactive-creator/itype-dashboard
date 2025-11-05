@@ -46,8 +46,19 @@ function ParentLoginFields() {
     
       const validate = () => {
         const newErrors = {};
-        if (!formData.email) newErrors.email = "Email is required";
-        if (!formData.password) newErrors.password = "Password is required";
+       if (!formData.email) {
+      newErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = "Please enter a valid email address";
+    }
+        if (!formData.password) {
+      newErrors.password = "Password is required";
+    } else if (formData.password.length < 8) {
+      newErrors.password = "Password must be at least 8 characters";
+    } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/.test(formData.password)) {
+      newErrors.password =
+        "Password must contain uppercase, lowercase, and number";
+    }
     
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -64,11 +75,9 @@ function ParentLoginFields() {
     >
       <Box
         sx={{
-          marginLeft: "9.125rem",
-          marginRight: "9.125rem",
           marginTop: "4rem",
           marginBottom: "4rem",
-           width:'26.688rem'
+          width:'30.688rem'
         }}
       >
         {/* logo */}

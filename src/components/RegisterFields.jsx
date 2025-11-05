@@ -98,11 +98,9 @@ function RegisterFields() {
     >
       <Box
         sx={{
-          marginLeft: "9.125rem",
-          marginRight: "9.125rem",
-          marginTop: "4rem",
-          marginBottom: "4rem",
-          width: "26.688rem",
+          marginTop: "2rem",
+          marginBottom: "2rem",
+          width: "30.688rem",
         }}
       >
         {/* logo */}
@@ -202,7 +200,7 @@ function RegisterFields() {
               error={errors.password}
             />
           </Box>
-          <Box sx={{ marginTop: "1rem" }}>
+          {/* <Box sx={{ marginTop: "1rem" }}>
             <Typography
               sx={{
                 fontSize: "0.813rem",
@@ -213,7 +211,7 @@ function RegisterFields() {
             >
               Your password must have at least 8 characters
             </Typography>
-          </Box>
+          </Box> */}
           <Box
             sx={{
               marginTop: "1.5rem",
@@ -272,7 +270,7 @@ function RegisterFields() {
               }}
               type="submit"
             >
-              Register
+              Sign Up
             </Button>
           </Box>
         </Box>

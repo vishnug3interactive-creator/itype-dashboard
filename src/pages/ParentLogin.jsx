@@ -5,13 +5,12 @@ import ParentLoginFields from "../components/ParentLogin/ParentLoginFields";
 
 function ParentLogin() {
   
-
   return (
     <Box
         sx={{
           display: "grid",
-          gridTemplateColumns: { xs: "1fr", md: "1fr 0.8fr" },
-          minHeight: "90vh",
+          gridTemplateColumns: { xs: "1fr",sm:'1fr', md: "1fr 1fr",lg:'1fr 0.8fr' },
+          minHeight: "100vh",
           overflow:'hidden'
         }}
       >
@@ -20,11 +19,24 @@ function ParentLogin() {
           display:'flex',
           justifyContent:'center',
           alignItems:'center',
+          minHeight: { xs: "100vh", md: "auto" },
           height: "100vh",
-          overflowX: "auto",
+           padding: { 
+            xs: "2rem 1rem", 
+            sm: "2rem 2rem",
+            md: "2rem 3rem",
+            lg: "2rem 4rem"
+          },
+          overflowY: "auto",
+          overflowX: "hidden"
            
           }}>
-           <ParentLoginFields/>
+          <Box sx={{ 
+          width: "100%", 
+          maxWidth: { xs: "400px", sm: "450px", md: "500px" } 
+        }}>
+          <ParentLoginFields />
+        </Box>
         </Box>
 
       {/* right section */}
@@ -45,3 +57,4 @@ function ParentLogin() {
 }
 
 export default ParentLogin
+

@@ -10,16 +10,21 @@ function ParentRegister() {
       <Box
         sx={{
           display: "grid",
-          gridTemplateColumns: { xs: "1fr", md: "0.8fr 1fr" },
-          minHeight: "90vh",
-          overflow:'hidden'
+          gridTemplateColumns: { xs: "1fr", md: "1fr 1fr", lg: "1fr 0.8fr" },
+          minHeight: "100vh",
+          overflow: "hidden",
         }}
       >
         {/* left section */}
-        <Box sx={{ width: "100%", height:'100vh',
-            display: { xs: "none", md: "block" } ,
-            position:'sticky',
-            top:0}}>
+        <Box
+          sx={{
+            width: "100%",
+            height: "100vh",
+            display: { xs: "none", md: "block" },
+            position: "sticky",
+            top: 0,
+          }}
+        >
           <img
             src={logo}
             style={{ width: "100%", height: "100%", objectFit: "cover" }}
@@ -27,12 +32,32 @@ function ParentRegister() {
           />
         </Box>
         {/* form section */}
-        <Box sx={{
+        <Box
+          sx={{
+            
+  
+            justifyContent: "center",
+            alignItems: "center",
+            minHeight: { xs: "100vh", md: "auto" },
             height: "100vh",
+            padding: {
+              xs: "2rem 1rem",
+              sm: "2rem 2rem",
+              md: "2rem 3rem",
+              lg: "2rem 4rem",
+            },
             overflowY: "auto",
-           
-          }}>
-            <RegisterFields/>
+          }}
+        >
+          <Box
+            sx={{
+              width: "100%",
+             
+            }}
+          >
+            {" "}
+            <RegisterFields />
+          </Box>
         </Box>
       </Box>
     </>
