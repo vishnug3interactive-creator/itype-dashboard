@@ -1,16 +1,15 @@
 
 import axios from "axios";
-// import { BASE_URL } from "../../config/apiConfig";
+import { BASE_URL } from "../../config/apiConfig";
 
 const axiosInstance = axios.create({
-//   baseURL: BASE_URL,
-  baseURL: 'http://52.62.65.5/api/',
+  baseURL: BASE_URL,
+//   baseURL: 'http://52.62.65.5/api/',
   timeout: 10000,
   headers: {
     "Content-Type": "application/json",
   },
 });
-
 
 axiosInstance.interceptors.request.use(
   (config) => {

@@ -6,7 +6,6 @@ import lockIcon from "../assets/registerIcons/lock.png";
 import UserIcon from "../assets/registerIcons/user.png";
 import EnvelopeIcon from "../assets/registerIcons/envelope.png";
 import PhoneIcon from "../assets/registerIcons/phone.png";
-// import BASE_URL from "./services/axiosInstance";
 import { apiService } from "./services/apiService";
 
 function RegisterFields() {
