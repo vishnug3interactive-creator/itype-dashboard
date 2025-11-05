@@ -8,7 +8,6 @@ import { apiService } from "../services/apiService";
 import { Link } from "react-router-dom";
 import UserIcon from "../../assets/registerIcons/user.png";
 
-
 function ChildLoginField() {
      const Initial_State = {
             parentcode: "",
@@ -49,11 +48,13 @@ function ChildLoginField() {
           const validate = () => {
             const newErrors = {};
             if (!formData.parentcode) newErrors.parentcode = "Parentcode is required";
-            if (!formData.password) newErrors.password = "Password is required";
-        
+            if (!formData.childusername) newErrors.childusername = "Childusername is required";
+            if(!formData.password) newErrors.password="Password is required";
+            
             setErrors(newErrors);
             return Object.keys(newErrors).length === 0;
           };
+          
   return (
     <>
     <Box
@@ -68,7 +69,7 @@ function ChildLoginField() {
           marginLeft: "9.125rem",
           marginRight: "9.125rem",
           marginTop: "4rem",
-          marginBottom: "4rem",
+          marginBottom:'4rem',
            width:'26.688rem'
         }}
       >
@@ -78,7 +79,7 @@ function ChildLoginField() {
         </Box>
         <Box
           sx={{
-            marginTop: "2.5rem",
+            marginTop: "1.5rem",
           }}
         >
           <Box>
@@ -141,14 +142,14 @@ function ChildLoginField() {
           <Box sx={{ marginTop: "1rem" }}>
             <NormalTextField
               type="text"
-              name="parentcode"
+              name="childusername"
               label="Child Username (e.g.johnsmith - not your email)"
               placeholder="Child Username"
               required
               icon={UserIcon}
-              value={formData.parentcode}
+              value={formData.childusername}
               handleChange={handleChange}
-              error={errors.parentcode}
+              error={errors.childusername}
             />
           </Box>
           <Box sx={{ marginTop: "1rem" }}>
@@ -193,7 +194,7 @@ function ChildLoginField() {
               Remember me
             </Typography>
           </Box>
-          <Box sx={{ marginTop: "2rem" }}>
+          <Box sx={{ marginTop: "1.5rem" }}>
             <Button
               sx={{
                 backgroundColor: "#922C88",
@@ -229,13 +230,13 @@ function ChildLoginField() {
 
         <Box
           sx={{
-            marginTop: "1.5rem",
+            marginTop: "1rem",
             display: "flex",
             alignContent: "center",
             justifyContent: "center",
           }}
         >
-       <Link to={'/child'}><Typography
+       <Link to={'/'}><Typography
             sx={{
               fontSize: "1rem",
               fontWeight: "400",
@@ -244,11 +245,11 @@ function ChildLoginField() {
               color:'#09070580'
             }}
           >
-            Logging in as a child?
+            Logging in as a parent?
             <span style={{ color: "#922C88",paddingLeft:'10px' }}>Click Here</span>
           </Typography></Link> 
         </Box>
-         <Box sx={{ marginTop: "2rem" }}>
+         <Box sx={{ marginTop: "1rem" }}>
           <Link to={'/parent'}>
             <Button
               sx={{

@@ -6,9 +6,9 @@ import lockIcon from "../assets/registerIcons/lock.png";
 import UserIcon from "../assets/registerIcons/user.png";
 import EnvelopeIcon from "../assets/registerIcons/envelope.png";
 import PhoneIcon from "../assets/registerIcons/phone.png";
+import PostalIcon from '../assets/registerIcons/landmark.svg'
 import { apiService } from "./services/apiService";
 import { Link } from "react-router-dom";
-
 
 function RegisterFields() {
   const Initial_State = {
@@ -56,20 +56,20 @@ function RegisterFields() {
     } else if (formData.first_name.trim().length < 2) {
       newErrors.first_name = "Full Name must be at least 2 characters";
     }
-     if (!formData.last_name) {
+    if (!formData.last_name) {
       newErrors.last_name = "Last Name is required";
-    } 
+    }
     if (!formData.phone) {
       newErrors.phone = "phone is required";
     } else if (!/^[0-9]{10}$/.test(formData.phone.replace(/[\s-]/g, ""))) {
       newErrors.phone = "Please enter a valid 10-digit phone number";
     }
-      if (!formData.postal_code) {
+    if (!formData.postal_code) {
       newErrors.postal_code = "Postal Code is required";
     } else if (formData.postal_code.trim().length < 6) {
       newErrors.postal_code = "Postal Code must be at least 6 characters";
     }
-    
+
     if (!formData.email) {
       newErrors.email = "Email is required";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
@@ -87,8 +87,6 @@ function RegisterFields() {
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-
-  //   console.log(formData);
 
   return (
     <Box
@@ -161,6 +159,7 @@ function RegisterFields() {
               type="text"
               name="phone"
               placeholder="Phone Number"
+              prefix="+61"
               required
               icon={PhoneIcon}
               value={formData.phone}
@@ -174,7 +173,7 @@ function RegisterFields() {
               name="postal_code"
               placeholder="Enter Zip"
               required
-              // icon={UserIcon}
+              icon={PostalIcon}
               value={formData.postal_code}
               handleChange={handleChange}
               error={errors.postal_code}
@@ -266,10 +265,10 @@ function RegisterFields() {
                 color: "white",
                 height: "3rem",
                 borderRadius: "0.625rem",
-                textTransform:'none',
-                fontWeight:'600',
-                fontSize:'1rem',
-                lineHeight:'1.5rem'
+                textTransform: "none",
+                fontWeight: "600",
+                fontSize: "1rem",
+                lineHeight: "1.5rem",
               }}
               type="submit"
             >
@@ -286,19 +285,22 @@ function RegisterFields() {
             justifyContent: "center",
           }}
         >
-         <Link to={'/'}>  <Typography
-            sx={{
-              fontSize: "1rem",
-              fontWeight: "500",
-              fontFamily: "Poppins",
-              lineHeight: "1.5rem",
-            }}
-          >
-            Already have an account?
-          <span style={{ color: "#922C88", paddingLeft: "10px" }}>
-              Sign In
-            </span>
-          </Typography></Link> 
+          <Link to={"/"}>
+            {" "}
+            <Typography
+              sx={{
+                fontSize: "1rem",
+                fontWeight: "400",
+                fontFamily: "Poppins",
+                lineHeight: "1.5rem",
+              }}
+            >
+              Already have an account?
+              <span style={{ color: "#922C88", paddingLeft: "10px" }}>
+                Sign In
+              </span>
+            </Typography>
+          </Link>
         </Box>
       </Box>
     </Box>

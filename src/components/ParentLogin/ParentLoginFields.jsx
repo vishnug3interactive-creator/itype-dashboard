@@ -199,7 +199,7 @@ function ParentLoginFields() {
 
         <Box
           sx={{
-            marginTop: "1.5rem",
+            marginTop: "1rem",
             display: "flex",
             alignContent: "center",
             justifyContent: "center",
@@ -218,7 +218,7 @@ function ParentLoginFields() {
             <span style={{ color: "#922C88",paddingLeft:'10px' }}>Click Here</span>
           </Typography></Link> 
         </Box>
-         <Box sx={{ marginTop: "2rem" }}>
+         <Box sx={{ marginTop: "1.5rem" }}>
           <Link to={'/parent'}>
             <Button
               sx={{
@@ -229,7 +229,7 @@ function ParentLoginFields() {
                 borderRadius: "0.625rem",
                 border:'1px solid #922C88',
                 textTransform:'none',
-                fontWeight:400
+                fontWeight:400,
 
               }}
               type="submit"

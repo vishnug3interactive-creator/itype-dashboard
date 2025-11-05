@@ -14,6 +14,7 @@ export const NormalTextField = ({
   isPassword = false,
   error,
   icon,
+  prefix
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -51,7 +52,18 @@ export const NormalTextField = ({
           background: "#F5F6FA",
         }}
       >
-        <Box sx={{ position: "relative", width: "100%" }}>
+        <Box sx={{ position: "relative", width: "100%",display:'flex',alignItems:'center' }}>
+          {prefix &&(
+            <Typography sx={{
+                fontSize: "0.875rem",
+                color: "#090705B2",
+                marginLeft: icon ? "2rem" : "0",
+                marginRight: "-1rem",
+                fontWeight: 500,
+              }}>
+                {prefix}
+            </Typography>
+          )}
           <input
             type={getInputType()}
             name={name}

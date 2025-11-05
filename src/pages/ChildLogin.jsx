@@ -12,15 +12,15 @@ function ChildLogin() {
         sx={{
           display: "grid",
           gridTemplateColumns: { xs: "1fr", md: "1fr 0.8fr" },
-          minHeight: "90vh",
+         
           overflow:'hidden'
         }}
       >
         {/* left section */}
          <Box sx={{
+       
           display:'flex',
           justifyContent:'center',
-          alignItems:'center',
           height: "100vh",
           overflowX: "auto",
            
