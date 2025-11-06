@@ -4,25 +4,36 @@ import otplogo from "../../assets/images/otplogo.jpg";
 import { MuiOtpInput } from "mui-one-time-password-input";
 import { apiService } from "../services/apiService";
 import { useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function OtpComponent() {
   const [otp, setOtp] = useState("");
   const [ipAddress, setIpAddress] = useState("");
-  const [userId, setUserId] = useState(null);
+  const [loginData, setLoginData] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
-    const storedId = sessionStorage.getItem("user_id");
-    setUserId(storedId);
-  }, []);
+    const storedData = sessionStorage.getItem("loginData");
+
+    if (storedData) {
+      const parsedData = JSON.parse(storedData);
+      setLoginData(parsedData);
+    } else {
+      toast.error("Session expired. Please log in again.");
+      navigate("/");
+    }
+  }, [navigate]);
 
   useEffect(() => {
     const getIpAddress = async () => {
       try {
         const response = await fetch("https://api.ipify.org?format=json");
         const data = await response.json();
+
         setIpAddress(data.ip);
       } catch (error) {
-        console.error("Error fetching IP:", error);
+        // console.error("Error fetching IP:", error);
       }
     };
     getIpAddress();
@@ -32,25 +43,46 @@ function OtpComponent() {
     setOtp(newValue);
   };
 
-  const navigate = useNavigate();
-
   const handleVerifyOtp = async () => {
+    if (!loginData) {
+      toast.error("Session expired. Please log in again.");
+      navigate("/");
+      return;
+    }
+
+    if (!otp || otp.length !== 6) {
+      toast.error("Please enter a valid 6-digit OTP.");
+      return;
+    }
+
+    if (!ipAddress) {
+      toast.error("Unable to get IP address. Please try again.");
+      return;
+    }
+
     const payload = {
-      id: userId,
+      id: loginData.id,
       otp: otp,
       ip_address: ipAddress,
     };
+
     try {
       const response = await apiService.post("/verify-otp", payload);
 
-      if (response.data) {
+      if (response.success) {
+        if (loginData.rememberMe) {
+          localStorage.setItem("userData", JSON.stringify(response.data));
+        } else {
+          sessionStorage.setItem("userData", JSON.stringify(response.data));
+        }
+        sessionStorage.removeItem("loginData");
         navigate("/dashboard");
       } else {
-        alert(response.data?.message || "Invalid OTP, please try again.");
+        toast.error(response.data?.message || "Invalid OTP, please try again.");
       }
-    } catch {
-      console.error("Error:", error);
-      alert("Something went wrong while verifying OTP.");
+    } catch (error) {
+      // console.error("Error verifying OTP:", error);
+      toast.error("Something went wrong while verifying OTP.");
     }
   };
 
@@ -62,17 +94,20 @@ function OtpComponent() {
         justifyContent: "center",
         height: "100vh",
         backgroundColor: "#928f8b54",
+        padding: { xs: 2, sm: 3 },
       }}
     >
       <Box
         sx={{
-          width: "50rem",
-          height: "30rem",
+          width: { xs: "100%", sm: "90%", md: "50rem" },
+          maxWidth: "50rem",
+          height: "auto",
           backgroundColor: "white",
           boxShadow: 3,
           borderRadius: "0.5rem",
-          paddingLeft: "3rem",
-          paddingRight: "3rem",
+          // paddingLeft: "3rem",
+          // paddingRight: "3rem",
+          padding: { xs: "2rem 1.5rem", sm: "2.5rem 2rem", md: "3rem" },
         }}
       >
         <Box
@@ -87,23 +122,45 @@ function OtpComponent() {
           <Box>
             <img src={otplogo} width="200px" height="200px"></img>
           </Box>
-          <Box>
+          <Box  sx={{ textAlign: "center", width: "100%" }}>
             <Typography
-              sx={{ fontSize: "1.5rem", fontWeight: "bold", marginTop: "1rem" }}
+              sx={{
+                fontSize: { xs: "1.2rem", sm: "1.35rem", md: "1.5rem" },
+                fontWeight: "bold",
+                marginTop: "1rem",
+                px: { xs: 1, sm: 2 },
+              }}
             >
               Email two factor authentication
             </Typography>
           </Box>
 
-          <Box>
+          <Box sx={{ textAlign: "center", width: "100%" }}>
             <Typography
-              sx={{ fontSize: "1rem", fontWeight: "400", marginTop: "1rem" }}
+              sx={{ fontWeight: "400", marginTop: "1rem", px: { xs: 1, sm: 2 }, 
+              fontSize: { xs: "0.875rem", sm: "0.95rem", md: "1rem" }, }}
             >
-              Your verification code has been sent to .<span>email</span>
-              Please enter it below to login to dashboard
+              Your verification code has been sent to
+              <span
+                style={{
+                  color: "blue",
+                  paddingLeft: "2px",
+                  paddingRight: "2px",
+                }}
+              >
+                {loginData?.email}
+              </span>
+              .Please enter it below to login to dashboard
             </Typography>
           </Box>
-          <Box sx={{ padding: "1rem" }}>
+          <Box
+            sx={{
+              padding: { xs: "1rem 0", sm: "1rem" },
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
             <MuiOtpInput
               value={otp}
               onChange={handleChange}
@@ -125,20 +182,34 @@ function OtpComponent() {
           <Box
             sx={{
               display: "flex",
+              flexDirection: { xs: "column", sm: "row" },
               justifyContent: "space-between",
               width: "100%",
+              gap: { xs: 1, sm: 0 },
+              px: { xs: 1, sm: 0 },
             }}
-          >
+          ><Link to={'/'}>
             <Box>
-              <Button
-                sx={{ textTransform: "none", color: "orange" }}
+               <Button
+                sx={{
+                  textTransform: "none",
+                  color: "orange",
+                  width: { xs: "100%", sm: "auto" },
+                }}
                 variant="text"
               >
                 Back to Login
               </Button>
             </Box>
+              </Link>
             <Box>
-              <Button sx={{ textTransform: "none" }} variant="text">
+              <Button
+                sx={{
+                  textTransform: "none",
+                  width: { xs: "100%", sm: "auto" },
+                }}
+                variant="text"
+              >
                 Resend Verification Code
               </Button>
             </Box>
@@ -150,9 +221,9 @@ function OtpComponent() {
                 color: "white",
                 backgroundColor: "#922C88",
                 textTransform: "none",
-                padding: "10px",
                 fontWeight: "400",
                 height: "50px",
+                padding: { xs: "10px 20px", sm: "10px 24px" },
               }}
             >
               Verify and Login

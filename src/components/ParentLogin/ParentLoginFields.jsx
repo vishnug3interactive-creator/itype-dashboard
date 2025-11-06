@@ -1,22 +1,32 @@
 import { Box, Button, Typography, Checkbox } from "@mui/material";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../../assets/images/itype4home.png";
 import { NormalTextField } from "../../helpers/FormInputs";
 import lockIcon from "../../assets/registerIcons/lock.png";
 import EnvelopeIcon from "../../assets/registerIcons/envelope.png";
 import { apiService } from "../services/apiService";
 import { Link, useNavigate } from "react-router-dom";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 
 function ParentLoginFields() {
+
   const Initial_State = {
     email: "",
     password: "",
+    rememberMe: false,
   };
+    const navigate = useNavigate();
 
   const [formData, setFormData] = useState(Initial_State);
 
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
+
+   useEffect(() => {
+    const userData = localStorage.getItem("userData");
+    if (userData) {
+      navigate("/dashboard");
+    }
+  }, [navigate]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -27,9 +37,14 @@ function ParentLoginFields() {
     setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
-  const [errors, setErrors] = useState({});
+   const handleCheckboxChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      rememberMe: e.target.checked, 
+    }));
+  };
 
-  const navigate = useNavigate();
+  const [errors, setErrors] = useState({});
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -38,13 +53,21 @@ function ParentLoginFields() {
     const result = await apiService.post("/login", formData);
 
     if (result.success) {
-      navigate("/otp");
-       sessionStorage.setItem("user_id", result.data.id);
-      console.log("Login successfully", result.data);
-      alert("Login successfully");
+       sessionStorage.setItem(
+      "loginData",
+      JSON.stringify({
+        ...result.data,
+        rememberMe: formData.rememberMe,
+      })
+    );
+
+      toast.success("Otp Sent to registered mail");
+      // console.log("Login successfully", result.data);
+       navigate("/otp");
+
     } else {
-      console.error("Error posting data:", result.error);
-      alert("Failed to create job!");
+     toast.error("Invalid credentials!");
+      // console.error("Error posting data:", result.error);
     }
   };
 
@@ -84,7 +107,6 @@ function ParentLoginFields() {
             width: "30.688rem",
           }}
         >
-          {/* logo */}
           <Box sx={{ width: "8.19rem", height: "2rem" }}>
             <img src={logo} alt="logo" />
           </Box>
@@ -156,6 +178,8 @@ function ParentLoginFields() {
               <Box>
                 <Checkbox
                   {...label}
+                  checked={formData.rememberMe}
+                 onChange={handleCheckboxChange}
                   sx={{
                     padding: "0 9px 0 0",
                     "&.Mui-checked": {
@@ -253,7 +277,7 @@ function ParentLoginFields() {
             </Link>
           </Box>
         </Box>
-        <ToastContainer  position="top-right"/>
+      
       </Box>
     </>
   );

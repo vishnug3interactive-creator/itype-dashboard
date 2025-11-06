@@ -12,7 +12,6 @@ function ParentRegister() {
           display: "grid",
           gridTemplateColumns: { xs: "1fr", md: "1fr 1fr", lg: "1fr 0.8fr" },
           minHeight: "100vh",
-          overflow: "hidden",
         }}
       >
         {/* left section */}
@@ -35,10 +34,10 @@ function ParentRegister() {
         <Box
           sx={{
             
-            // justifyContent: "center",
-            // alignItems: "center",
-            minHeight: { xs: "100vh", md: "auto" },
-            height: "100vh",
+            display:'flex',
+            justifyContent: "center",
+            alignItems:'flex-start',
+            minHeight:'100vh',
             padding: {
               xs: "2rem 1rem",
               sm: "2rem 2rem",
@@ -51,7 +50,8 @@ function ParentRegister() {
           <Box
             sx={{
               width: "100%",
-             
+              maxWidth: { xs: "400px", sm: "450px", md: "500px" },
+
             }}
           >
             {" "}

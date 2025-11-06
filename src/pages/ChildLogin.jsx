@@ -10,14 +10,16 @@ function ChildLogin() {
       <Box
         sx={{
           display: "grid",
-          gridTemplateColumns: { xs: "1fr", md: "1fr 1fr", lg: "1fr 0.8fr" },
+          gridTemplateColumns: { xs: "1fr", sm: "1fr", md: "1fr 1fr", lg: "1fr 0.8fr" },
           minHeight: "100vh",
-          overflow: "hidden",
         }}
       >
         {/* left section */}
         <Box
           sx={{
+             display:'flex',
+            justifyContent: "center",
+            alignItems:"flex-start",
             minHeight: { xs: "100vh", md: "auto" },
             height: "100vh",
             padding: {
@@ -27,12 +29,13 @@ function ChildLogin() {
               lg: "2rem 4rem",
             },
             overflowY: "auto",
+             overflowX: "hidden"
           }}
         >
           <Box
             sx={{
               width: "100%",
-              marginTop:'4rem'
+               maxWidth: { xs: "400px", sm: "450px", md: "500px" },
             }}
           >
             <ChildLoginField />

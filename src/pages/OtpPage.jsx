@@ -8,7 +8,6 @@ function OtpPage() {
         <Box >
             <OtpComponent/>
         </Box>
-
     </Box>
   )
 }

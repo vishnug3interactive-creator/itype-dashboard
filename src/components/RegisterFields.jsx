@@ -9,6 +9,7 @@ import PhoneIcon from "../assets/registerIcons/phone.png";
 import PostalIcon from '../assets/registerIcons/landmark.svg'
 import { apiService } from "./services/apiService";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 function RegisterFields() {
   const Initial_State = {
@@ -41,11 +42,11 @@ function RegisterFields() {
     const result = await apiService.post("/register", formData);
 
     if (result.success) {
-      console.log("Account Created successfully", result.data);
-      alert("Account created successfully");
+      // console.log("Account Created successfully", result.data);
+      toast.success("User Registered successfully");
     } else {
-      console.error("Error posting data:", result.error);
-      alert("Failed to Register!");
+      // console.error("Error posting data:", result.error);
+      toast.error("Failed to Register!");
     }
   };
 
