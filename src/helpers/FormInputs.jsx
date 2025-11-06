@@ -1,7 +1,7 @@
-import { Box, Typography } from "@mui/material";
+import { Box, Checkbox, Typography } from "@mui/material";
 import React from "react";
-import { useState } from 'react';
-import { Eye, EyeOff } from 'lucide-react';
+import { useState } from "react";
+import { Eye, EyeOff } from "lucide-react";
 
 export const NormalTextField = ({
   name,
@@ -14,7 +14,7 @@ export const NormalTextField = ({
   isPassword = false,
   error,
   icon,
-  prefix
+  prefix,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -52,38 +52,61 @@ export const NormalTextField = ({
           background: "#F5F6FA",
         }}
       >
-        <Box sx={{ position: "relative", width: "100%",display:'flex',alignItems:'center' }}>
-          {prefix &&(
-            <Typography sx={{
+        <Box
+          sx={{
+            position: "relative",
+            width: "100%",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          {prefix && (
+            <Typography
+              sx={{
                 fontSize: "0.875rem",
                 color: "#090705B2",
                 marginLeft: icon ? "2rem" : "0",
                 marginRight: "-1rem",
                 fontWeight: 500,
-              }}>
-                {prefix}
+              }}
+            >
+              {prefix}
             </Typography>
           )}
-          <input
+          <Box
+            component="input"
             type={getInputType()}
             name={name}
             value={value}
             onChange={handleChange}
             placeholder={placeholder}
             minLength={minLength}
-            style={{
+            sx={{
               width: "100%",
-              height: "100%",
+              // height: "100%",
               border: "none",
               outline: "none",
+              boxShadow: "none",
               fontSize: "0.875rem",
-              color: "#090705B2",
-              marginLeft: '2rem',
-              paddingRight: isPassword ? '2.5rem' : '0',
+              marginLeft: "2rem",
+              padding: "0",
+              backgroundColor: "transparent",
+              // paddingRight: isPassword ? '2.5rem' : '0',
+              "&:focus": {
+                outline: "none",
+                border: "none",
+                boxShadow: "none",
+              },
+              "&:-webkit-autofill": {
+                boxShadow: "0 0 0 1000px #F5F6FA inset !important",
+                backgroundColor: "transparent !important",
+                WebkitTextFillColor: "#090705B2 !important",
+                transition: "background-color 5000s ease-in-out 0s",
+              },
             }}
           />
           {icon && (
-            <Box  
+            <Box
               component="img"
               src={icon}
               alt="field icon"
@@ -113,20 +136,51 @@ export const NormalTextField = ({
                 color: "#090705B2",
               }}
             >
-             {showPassword ? (
-                <Eye size={20} />
-              ) : (
-                <EyeOff size={20} />
-              )}
+              {showPassword ? <Eye size={20} /> : <EyeOff size={20} />}
             </Box>
           )}
         </Box>
       </Box>
-      {error && (
-        <Box sx={{ color: "red", fontSize: "0.75rem" }}>
-          {error}
-        </Box>
-      )}
+      {error && <Box sx={{ color: "red", fontSize: "0.75rem" }}>{error}</Box>}
+    </Box>
+  );
+};
+
+export const CheckBoxField = ({
+  checked,
+  onChange,
+  label,
+}) => {
+  return (
+    <Box
+      sx={{
+        marginTop: "1.5rem",
+        display: "flex",
+        alignItems: "flex-start",
+      }}
+    >
+      <Box>
+        <Checkbox
+          checked={checked}
+          onChange={onChange}
+          sx={{
+            padding: "0 9px 0 0",
+            "&.Mui-checked": {
+              color: "#922C88",
+            },
+          }}
+        />
+      </Box>
+      <Typography
+        sx={{
+          fontSize: "0.813rem",
+          fontWeight: "400",
+          fontFamily: "Poppins",
+          lineHeight: "1.25rem",
+        }}
+      >
+        {label}
+      </Typography>
     </Box>
   );
 };

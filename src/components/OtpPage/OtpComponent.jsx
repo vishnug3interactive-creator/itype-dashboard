@@ -129,6 +129,7 @@ function OtpComponent() {
                 fontWeight: "bold",
                 marginTop: "1rem",
                 px: { xs: 1, sm: 2 },
+                fontFamily:'Poppins'
               }}
             >
               Email two factor authentication
@@ -168,7 +169,7 @@ function OtpComponent() {
               length={6}
               renderSeparator={<span>-</span>}
               TextFieldsProps={{
-                size: "small",
+                // size: "small",
                 sx: {
                   width: "40px",
                   "& input": {

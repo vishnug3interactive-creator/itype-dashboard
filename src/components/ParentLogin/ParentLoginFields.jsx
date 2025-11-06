@@ -7,21 +7,21 @@ import EnvelopeIcon from "../../assets/registerIcons/envelope.png";
 import { apiService } from "../services/apiService";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { CheckBoxField } from "../../helpers/FormInputs";
 
 function ParentLoginFields() {
-
   const Initial_State = {
     email: "",
     password: "",
     rememberMe: false,
   };
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState(Initial_State);
 
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
 
-   useEffect(() => {
+  useEffect(() => {
     const userData = localStorage.getItem("userData");
     if (userData) {
       navigate("/dashboard");
@@ -37,39 +37,43 @@ function ParentLoginFields() {
     setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
-   const handleCheckboxChange = (e) => {
+  const handleCheckboxChange = (e) => {
     setFormData((prev) => ({
       ...prev,
-      rememberMe: e.target.checked, 
+      rememberMe: e.target.checked,
     }));
   };
 
   const [errors, setErrors] = useState({});
 
+
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (!validate()) return;
-    // alert("Form Submitted");
+  e.preventDefault();
+
+  if (!validate()) return;
+
+  try {
     const result = await apiService.post("/login", formData);
 
     if (result.success) {
-       sessionStorage.setItem(
-      "loginData",
-      JSON.stringify({
-        ...result.data,
-        rememberMe: formData.rememberMe,
-      })
-    );
-
-      toast.success("Otp Sent to registered mail");
-      // console.log("Login successfully", result.data);
-       navigate("/otp");
-
+      sessionStorage.setItem(
+        "loginData",
+        JSON.stringify({
+          ...result.data,
+          rememberMe: formData.rememberMe,
+        })
+      );
+      toast.success("Otp sent to registered mail");
+      navigate("/otp");
     } else {
-     toast.error("Invalid credentials!");
-      // console.error("Error posting data:", result.error);
+      const errorMessage = result.error?.message || "Failed to login!";
+      toast.error(errorMessage);
     }
-  };
+  } catch (error) {
+    console.error("Unexpected error:", error);
+    toast.error("Something went wrong. Please try again later.");
+  }
+};
 
   const validate = () => {
     const newErrors = {};
@@ -168,7 +172,7 @@ function ParentLoginFields() {
               />
             </Box>
 
-            <Box
+            {/* <Box
               sx={{
                 marginTop: "1.5rem",
                 display: "flex",
@@ -176,6 +180,7 @@ function ParentLoginFields() {
               }}
             >
               <Box>
+
                 <Checkbox
                   {...label}
                   checked={formData.rememberMe}
@@ -187,6 +192,7 @@ function ParentLoginFields() {
                     },
                   }}
                 />
+
               </Box>
               <Typography
                 sx={{
@@ -198,7 +204,14 @@ function ParentLoginFields() {
               >
                 Remember me
               </Typography>
-            </Box>
+            </Box> */}
+
+            <CheckBoxField
+              checked={formData.rememberMe}
+              onChange={handleCheckboxChange}
+              label="Remember me"
+            />
+
             <Box sx={{ marginTop: "2rem" }}>
               <Button
                 sx={{
@@ -277,7 +290,6 @@ function ParentLoginFields() {
             </Link>
           </Box>
         </Box>
-      
       </Box>
     </>
   );

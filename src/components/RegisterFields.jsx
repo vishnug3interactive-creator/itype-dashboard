@@ -1,12 +1,12 @@
 import { Box, Button, Typography, Checkbox } from "@mui/material";
 import React, { useState } from "react";
 import logo from "../assets/images/itype4home.png";
-import { NormalTextField } from "../helpers/FormInputs";
+import { CheckBoxField, NormalTextField } from "../helpers/FormInputs";
 import lockIcon from "../assets/registerIcons/lock.png";
 import UserIcon from "../assets/registerIcons/user.png";
 import EnvelopeIcon from "../assets/registerIcons/envelope.png";
 import PhoneIcon from "../assets/registerIcons/phone.png";
-import PostalIcon from '../assets/registerIcons/landmark.svg'
+import PostalIcon from "../assets/registerIcons/landmark.svg";
 import { apiService } from "./services/apiService";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -19,6 +19,7 @@ function RegisterFields() {
     email: "",
     postal_code: "",
     password: "",
+    isCheckbox: false,
   };
   const [formData, setFormData] = useState(Initial_State);
 
@@ -33,20 +34,33 @@ function RegisterFields() {
     setErrors((prev) => ({ ...prev, [name]: "" }));
   };
 
+  const handleCheckboxChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      isCheckbox: e.target.checked,
+    }));
+  };
+
   const [errors, setErrors] = useState({});
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!validate()) return;
 
-    const result = await apiService.post("/register", formData);
+    try {
+      const result = await apiService.post("/register", formData);
 
-    if (result.success) {
-      // console.log("Account Created successfully", result.data);
-      toast.success("User Registered successfully");
-    } else {
-      // console.error("Error posting data:", result.error);
-      toast.error("Failed to Register!");
+      if (result.success) {
+        toast.success("User Registered successfully");
+        setFormData(Initial_State);
+        setErrors({});
+      } else {
+        const errorMessage = result.error?.message || "Failed to Register!";
+        toast.error(errorMessage);
+      }
+    } catch (error) {
+      console.error("Unexpected error:", error);
+      toast.error("Something went wrong. Please try again later.");
     }
   };
 
@@ -83,6 +97,9 @@ function RegisterFields() {
     } else if (!/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])/.test(formData.password)) {
       newErrors.password =
         "Password must contain uppercase, lowercase, and number";
+    }
+    if (!formData.isCheckbox) {
+      newErrors.isCheckbox = "You must Agree Conditions is required";
     }
 
     setErrors(newErrors);
@@ -201,18 +218,7 @@ function RegisterFields() {
               error={errors.password}
             />
           </Box>
-          {/* <Box sx={{ marginTop: "1rem" }}>
-            <Typography
-              sx={{
-                fontSize: "0.813rem",
-                fontWeight: "400",
-                fontFamily: "Poppins",
-                lineHeight: "1.25rem",
-              }}
-            >
-              Your password must have at least 8 characters
-            </Typography>
-          </Box> */}
+
           <Box
             sx={{
               marginTop: "1.5rem",
@@ -223,38 +229,52 @@ function RegisterFields() {
             <Box>
               <Checkbox
                 {...label}
+                checked={formData.isCheckbox}
+                onChange={handleCheckboxChange}
                 sx={{
                   padding: "0 9px 0 0",
-                  color: "#922C88",
                   "&.Mui-checked": {
                     color: "#922C88",
                   },
                 }}
               />
             </Box>
-            <Typography
-              sx={{
-                fontSize: "0.813rem",
-                fontWeight: "400",
-                fontFamily: "Poppins",
-                lineHeight: "1.25rem",
-              }}
-            >
-              By creating an account means you agree to the<br></br>
-              <Box
-                component="span"
-                sx={{ color: "#922C88", cursor: "pointer" }}
+            <Box>
+              <Typography
+                sx={{
+                  fontSize: "0.813rem",
+                  fontWeight: "400",
+                  fontFamily: "Poppins",
+                  lineHeight: "1.25rem",
+                }}
               >
-                Terms & Conditions
-              </Box>{" "}
-              and our{" "}
-              <Box
-                component="span"
-                sx={{ color: "#922C88", cursor: "pointer" }}
-              >
-                Privacy Policy
-              </Box>
-            </Typography>
+                By creating an account means you agree to the<br></br>
+                <Box
+                  component="span"
+                  sx={{ color: "#922C88", cursor: "pointer" }}
+                >
+                  Terms & Conditions
+                </Box>{" "}
+                and our{" "}
+                <Box
+                  component="span"
+                  sx={{ color: "#922C88", cursor: "pointer" }}
+                >
+                  Privacy Policy
+                </Box>
+              </Typography>
+              {errors.isCheckbox && (
+                <Typography
+                  sx={{
+                    color: "red",
+                    fontSize: "0.75rem",
+                    marginTop: "0.25rem",
+                  }}
+                >
+                  {errors.isCheckbox}
+                </Typography>
+              )}
+            </Box>
           </Box>
           <Box sx={{ marginTop: "2rem" }}>
             <Button
@@ -295,7 +315,13 @@ function RegisterFields() {
               }}
             >
               Already have an account?
-              <span style={{ color: "#922C88", paddingLeft: "10px" }}>
+              <span
+                style={{
+                  color: "#922C88",
+                  paddingLeft: "10px",
+                  fontFamily: "Poppins",
+                }}
+              >
                 Sign In
               </span>
             </Typography>

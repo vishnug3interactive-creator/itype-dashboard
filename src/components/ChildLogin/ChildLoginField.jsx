@@ -1,7 +1,7 @@
 import { Box, Button, Typography, Checkbox } from "@mui/material";
 import React, { useState } from "react";
 import logo from "../../assets/images/itype4home.png";
-import { NormalTextField } from "../../helpers/FormInputs";
+import { CheckBoxField, NormalTextField } from "../../helpers/FormInputs";
 import lockIcon from "../../assets/registerIcons/lock.png";
 import EnvelopeIcon from "../../assets/registerIcons/envelope.png";
 import { apiService } from "../services/apiService";
@@ -13,6 +13,7 @@ function ChildLoginField() {
     unique_code: "",
     user_name: "",
     password: "",
+    rememberMe: false,
   };
 
   const [formData, setFormData] = useState(Initial_State);
@@ -26,6 +27,13 @@ function ChildLoginField() {
       [name]: value,
     }));
     setErrors((prev) => ({ ...prev, [name]: "" }));
+  };
+
+  const handleCheckboxChange = (e) => {
+    setFormData((prev) => ({
+      ...prev,
+      rememberMe: e.target.checked,
+    }));
   };
 
   const [errors, setErrors] = useState({});
@@ -69,7 +77,6 @@ function ChildLoginField() {
           display: "flex",
           alignContent: "center",
           justifyContent: "center",
-           
         }}
       >
         <Box
@@ -129,7 +136,7 @@ function ChildLoginField() {
               </Typography>
             </Box>
           </Box>
-                
+
           <Box component="form" onSubmit={handleSubmit}>
             <Box sx={{ marginTop: "1rem" }}>
               <NormalTextField
@@ -170,7 +177,7 @@ function ChildLoginField() {
               />
             </Box>
 
-            <Box
+            {/* <Box
               sx={{
                 marginTop: "1.5rem",
                 display: "flex",
@@ -198,7 +205,14 @@ function ChildLoginField() {
               >
                 Remember me
               </Typography>
-            </Box>
+            </Box> */}
+
+            <CheckBoxField
+              checked={formData.rememberMe}
+              onChange={handleCheckboxChange}
+              label="Remember me"
+            />
+
             <Box sx={{ marginTop: "1.5rem" }}>
               <Button
                 sx={{
@@ -218,6 +232,7 @@ function ChildLoginField() {
               </Button>
             </Box>
           </Box>
+          
           <Box sx={{ marginTop: "1rem" }}>
             <Typography
               sx={{
