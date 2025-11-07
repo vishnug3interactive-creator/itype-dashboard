@@ -60,8 +60,10 @@ function OtpComponent() {
       return;
     }
 
+    const userId = loginData.user_id || loginData.id;
+
     const payload = {
-      id: loginData.id,
+      id: userId,
       otp: otp,
       ip_address: ipAddress,
     };
@@ -81,7 +83,7 @@ function OtpComponent() {
         toast.error(response.data?.message || "Invalid OTP, please try again.");
       }
     } catch (error) {
-      // console.error("Error verifying OTP:", error);
+
       toast.error("Something went wrong while verifying OTP.");
     }
   };
@@ -105,8 +107,6 @@ function OtpComponent() {
           backgroundColor: "white",
           boxShadow: 3,
           borderRadius: "0.5rem",
-          // paddingLeft: "3rem",
-          // paddingRight: "3rem",
           padding: { xs: "2rem 1.5rem", sm: "2.5rem 2rem", md: "3rem" },
         }}
       >

@@ -21,6 +21,7 @@ function RegisterFields() {
     password: "",
     isCheckbox: false,
   };
+
   const [formData, setFormData] = useState(Initial_State);
 
   const label = { inputProps: { "aria-label": "Checkbox demo" } };
@@ -101,7 +102,6 @@ function RegisterFields() {
     if (!formData.isCheckbox) {
       newErrors.isCheckbox = "You must Agree Conditions is required";
     }
-
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
