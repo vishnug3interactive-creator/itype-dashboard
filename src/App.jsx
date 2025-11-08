@@ -8,6 +8,7 @@ import DashboardPage from "./pages/DashboardPage";
 import OtpPage from "./pages/OtpPage";
 import {  ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ForgetPassword from "./pages/ForgetPassword";
 
 function App() {
   return (
@@ -18,7 +19,8 @@ function App() {
           <Route path="/child" element={<ChildLogin />} />
           <Route path="/parent" element={<ParentRegister />} />
           <Route path="/otp" element={<OtpPage />} />
-          <Route path="/dashboard" element={<DashboardPage />}></Route>
+          <Route path="/dashboard" element={<DashboardPage />}/>
+          <Route path="/forget-password" element={<ForgetPassword/>}/>
           
         </Routes>
         <ToastContainer
