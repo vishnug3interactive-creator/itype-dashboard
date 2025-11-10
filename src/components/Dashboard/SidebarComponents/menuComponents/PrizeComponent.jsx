@@ -11,8 +11,9 @@ function PrizeComponent() {
         // height: "213px",
         marginBottom: "1rem",
         backgroundImage: `url(${Giftbg})`,
-        backgroundPositionX: "70px",
-        backgroundPositionY: "30px",
+        // backgroundPositionX: "70px",
+        // backgroundPositionY: "30px",
+        objectFit:'cover',
         backgroundColor: "#922C88",
         borderRadius: "12px",
         display: "flex",
@@ -23,7 +24,6 @@ function PrizeComponent() {
         paddingBottom: "16px",
         textAlign: "center",
         color: "#fff",
-       
       }}
     >
       <Box

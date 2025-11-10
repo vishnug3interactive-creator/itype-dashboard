@@ -10,41 +10,41 @@ import MeterCard from "./MeterCard";
 import React from "react";
 
 
-const meters = [
-  {
-    id: 1,
-    title: "Speed Drills",
-    content: "Measuring your learning outcome.",
-    icon: SpeedIcon,
-    value:16,
-    color:'#01A8DF'
+// const meters = [
+//   {
+//     id: 1,
+//     title: "Speed Drills",
+//     content: "Measuring your learning outcome.",
+//     icon: SpeedIcon,
+//     value:16,
+//     color:'#01A8DF'
 
-  },
-  {
-    id: 2,
-    title: "Accuracy Drills",
-    content: "Measuring your learning outcome.",
-    icon: AccuracyIcon,
-    value:51,
-    color:'#E52293'
-  },
-  {
-    id: 3,
-    title: "Text Drills",
-    content: "Practice improves your touch typing.",
-     icon: TextIcon,
-     value:76,
-     color:'#FF6928'
-  },
-   {
-    id: 3,
-    title: "Games",
-    content: "Learning and having fun at the same time.",
-     icon: GameIcon,
-     value:100,
-     color:'#93C83C'
-  },
-];
+//   },
+//   {
+//     id: 2,
+//     title: "Accuracy Drills",
+//     content: "Measuring your learning outcome.",
+//     icon: AccuracyIcon,
+//     value:51,
+//     color:'#E52293'
+//   },
+//   {
+//     id: 3,
+//     title: "Text Drills",
+//     content: "Practice improves your touch typing.",
+//      icon: TextIcon,
+//      value:76,
+//      color:'#FF6928'
+//   },
+//    {
+//     id: 3,
+//     title: "Games",
+//     content: "Learning and having fun at the same time.",
+//      icon: GameIcon,
+//      value:100,
+//      color:'#93C83C'
+//   },
+// ];
 
 function MetersComponent({ meter }) {
   return (
@@ -52,9 +52,9 @@ function MetersComponent({ meter }) {
       <Box >
         
             <Box sx={{padding:'20px'}}>
-              {meters.map((p) => (
-                <MeterCard key={p.id} meters={p} />
-              ))}
+              {/* {meters.map((p) => ( */}
+                <MeterCard  />
+              {/* ))} */}
               
         </Box>
          {/* <Divider /> */}

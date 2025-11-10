@@ -67,7 +67,7 @@ function MenuList({ items = menuItems, activeItem, onSelect }) {
                   sx={{
                     "& svg": {
                       width: isHome ? 20 : 24,
-                      height: isHome ? 22 : 24,
+                      // height: isHome ? 22 : 24,
                       color: isHome ? "white" : isActive ? "#922C88" : "#828392",
                       marginLeft:'20px'
                     },

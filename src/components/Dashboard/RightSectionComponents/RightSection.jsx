@@ -13,42 +13,41 @@ import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import fillicon from "../../../assets/images/righticons/fillicon.png";
 
-const profiles = [
-  {
-    id: "ST001",
-    name: "James Cooper",
-    age: 14,
-    status: "Active",
-    icon: profileicon,
-    dotIcon: dotframe,
-    statusIcon: greendot,
-    color: "linear-gradient(to top, #922C88, #fc64efbe 80%)",
-    textcolor: "#ffffff",
-  },
-  {
-    id: "ST002",
-    name: "Lisa Bryson",
-    age: 10,
-    status: "inactive",
-    icon: profileicon,
-    dotIcon: dotframe,
-    statusIcon: reddot,
-    color: "#ffffff",
-    textcolor: "#000000",
-  },
-  {
-    id: "ST003",
-    name: "John Carter",
-    age: 15,
-    status: "Active",
-    icon: profileicon,
-    dotIcon: dotframe,
-    statusIcon: greendot,
-    color: "#ffffff",
-    textcolor: "#000000",
-  },
-];
-
+// const profiles = [
+//   {
+//     id: "ST001",
+//     name: "James Cooper",
+//     age: 14,
+//     status: "Active",
+//     icon: profileicon,
+//     dotIcon: dotframe,
+//     statusIcon: greendot,
+//     color: "linear-gradient(to top, #922C88, #fc64efbe 80%)",
+//     textcolor: "#ffffff",
+//   },
+//   {
+//     id: "ST002",
+//     name: "Lisa Bryson",
+//     age: 10,
+//     status: "inactive",
+//     icon: profileicon,
+//     dotIcon: dotframe,
+//     statusIcon: reddot,
+//     color: "#ffffff",
+//     textcolor: "#000000",
+//   },
+//   {
+//     id: "ST003",
+//     name: "John Carter",
+//     age: 15,
+//     status: "Active",
+//     icon: profileicon,
+//     dotIcon: dotframe,
+//     statusIcon: greendot,
+//     color: "#ffffff",
+//     textcolor: "#000000",
+//   },
+// ];
 
 function RightSection() {
   return (
@@ -60,9 +59,9 @@ function RightSection() {
       </Box>
 
       <Box>
-        {profiles.map((p) => (
-          <ProfileCard key={p.id} profile={p} />
-        ))}
+  
+          <ProfileCard  />
+   
       </Box>
 
       <Box>

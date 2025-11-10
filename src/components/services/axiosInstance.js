@@ -4,8 +4,6 @@ import { BASE_URL } from "../../config/apiConfig";
 
 const axiosInstance = axios.create({
   baseURL: BASE_URL,
-//   baseURL: 'http://52.62.65.5/api/',
-  timeout: 10000,
   headers: {
     "Content-Type": "application/json",
   },
@@ -13,8 +11,15 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.request.use(
   (config) => {
-
-    const token = localStorage.getItem("token");
+    let token = localStorage.getItem("access_token");
+    
+    if (!token) {
+      const userData = localStorage.getItem("userData");
+      if (userData) {
+        const parsedData = JSON.parse(userData);
+        token = parsedData?.access_token;
+      }
+    }
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }

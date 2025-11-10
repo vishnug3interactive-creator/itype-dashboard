@@ -37,7 +37,6 @@ function ProfileComponents() {
       <Box
         sx={{
           borderRadius: "50%",
-         
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
