@@ -2,7 +2,6 @@ import { Box, Typography } from "@mui/material";
 import React from "react";
 import logo from "../../../assets/images/sidebaricons/itype4home logo.png";
 import ProfileComponents from "./menuComponents/ProfileComponents";
-import MenuListComponent from "./menuComponents/MenuList";
 import MenuList from "../../../components/Dashboard/SidebarComponents/menuComponents/MenuList";
 import PrizeComponent from "./menuComponents/PrizeComponent";
 function SidebarMain() {
@@ -12,9 +11,10 @@ function SidebarMain() {
         component="section"
         sx={{
           backgroundColor: "#FFFFFF",
-          paddingLeft: "1rem",
-          paddingRight: "1rem",
-          height: "100vh",
+          // paddingLeft: "1rem",
+          // paddingRight: "1rem",
+          paddingX:'1rem',
+          height: "100%",
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
@@ -31,20 +31,18 @@ function SidebarMain() {
           <img src={logo}></img>
           </Box>
           
-          {/* profile-component */}
           <ProfileComponents />
-
-          {/* menulist */}
 
           <MenuList />
 
-          {/* prizecomponent */}
-
         </Box>
+        <Box>
          <PrizeComponent />
+        </Box>
       </Box>
     </>
   );
 }
 
 export default SidebarMain;
+

@@ -4,6 +4,7 @@ import WelcomeComponent from "./mainsection/WelcomeComponent";
 import TaskProgress from "./mainsection/TaskProgress";
 import MetersComponent from "./mainsection/MetersComponent";
 import Cardview from "./mainsection/Cardview";
+import PointCard from "./mainsection/PointCard";
 
 function MainSection() {
   return (
@@ -30,7 +31,8 @@ function MainSection() {
         >
           <TaskProgress />
         </Box>
-        <Box
+       <Box sx={{display:'flex',flexDirection:'column'}}>
+         <Box
           sx={{
             marginLeft: "20px",
             background: "#ffffff",
@@ -38,8 +40,22 @@ function MainSection() {
             borderRadius: "24px",
           }}
         >
+        <PointCard/>
+        </Box>
+         <Box
+          sx={{
+            marginLeft: "20px",
+            background: "#ffffff",
+            marginTop:'1rem',
+            borderRadius: "24px",
+          }}
+        >
           <MetersComponent />
         </Box>
+       </Box>
+       
+
+        
       </Box>
 
       {/* bottom section */}

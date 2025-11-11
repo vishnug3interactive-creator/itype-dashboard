@@ -6,40 +6,39 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchChildList } from "../../../features/child/ChildSlice";
 import { setSelectedStudentId } from "../../../features/child/SelectedChildSlice";
 function ProfileCard() {
-  
-    const dispatch=useDispatch()
-    const{data:childlist,loading,error}=useSelector((state)=>state.studentlist)
+  const dispatch = useDispatch();
+  const {
+    data: childlist,
+    loading,
+    error,
+  } = useSelector((state) => state.studentlist);
 
-    const selectedId = useSelector((state) => state.selectedStudent.selectedId);
-  
-    useEffect(() => {
-      dispatch(fetchChildList());
-    }, [dispatch]);
-  
-     useEffect(() => {
+  const selectedId = useSelector((state) => state.selectedStudent.selectedId);
+
+  useEffect(() => {
+    dispatch(fetchChildList());
+  }, [dispatch]);
+
+  useEffect(() => {
     if (childlist.length > 0 && !selectedId) {
       dispatch(setSelectedStudentId(childlist[0].id));
     }
   }, [childlist, selectedId, dispatch]);
 
-
   if (childlist.length === 0) return <p>No student found</p>;
 
   return (
     <>
-      {childlist.map((student) => 
-      (
-
+      {childlist.map((student) => (
         <Box
           key={student.id}
-          onClick={()=>dispatch(setSelectedStudentId(student.id))}
+          onClick={() => dispatch(setSelectedStudentId(student.id))}
           sx={{
-            //  background:
-            // selectedId === student.id ? "#FFE4E1" : "#fff", 
-            backgroundImage:
-      selectedId === student.id
-        ? "linear-gradient(180deg, #922C8880, #922C88)"
-        : "none",
+           
+            background:
+              selectedId === student.id
+                ? "linear-gradient(180deg, #922C8880, #922C88)"
+                : "none",
             borderRadius: "12px",
             display: "flex",
             alignItems: "center",

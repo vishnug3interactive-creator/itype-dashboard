@@ -11,7 +11,7 @@ function Cardview() {
           <Box
             sx={{
               background: "white",
-              height: "144px",
+              // height: "144px",
               borderRadius: "10px",
               padding: "16px",
             }}
@@ -66,7 +66,6 @@ function Cardview() {
           <Box
             sx={{
               background: "white",
-              height: "144px",
               borderRadius: "10px",
               padding: "16px",
               marginLeft: "20px",
@@ -122,7 +121,6 @@ function Cardview() {
           <Box
             sx={{
               background: "white",
-              height: "144px",
               borderRadius: "10px",
               padding: "16px",
               marginLeft: "20px",

@@ -12,8 +12,6 @@ import AccuracyIcon from "../../../../assets/images/mainicons/Accuracy.png";
 import TextIcon from '../../../../assets/images/mainicons/texticon.png'
 import GameIcon from '../../../../assets/images/mainicons/gameicon.png'
 
-
-
 function MeterCard() {
   const [taskCounter, setTaskCounter] = useState(null);
 
@@ -30,28 +28,36 @@ function MeterCard() {
     dispatch(fetchChildList());
   }, [dispatch]);
 
-  console.log("Fetched Child List:", childlist);
-  console.log("passing id", selectedId);
+  // console.log("Fetched Child List:", childlist);
+  // console.log("passing id", selectedId);
 
-  const fetchTaskCounter = async () => {
-    try {
-      const result = await apiService.get(`/parent/drill-score/${selectedId}`);
-      console.log("metercarddata:", result);
+const fetchTaskCounter = async () => {
+  try {
+    const result = await apiService.get(`/parent/drill-score/${selectedId}`);
+    // console.log("metercarddata:", result.data.data);
 
-      if (result.success) {
-        setTaskCounter(result.data.data);
-      } else {
-        console.log("error fetching data");
-      }
-    } catch (error) {
-      console.error("Fetch error:", error);
+    if (result.success) {
+      const rawData = result.data.data;
+
+      const convertedData = Object.fromEntries(
+        Object.entries(rawData).map(([key, value]) => [key, parseInt(value)])
+      );
+
+      setTaskCounter(convertedData);
+    } else {
+      console.log("error fetching data");
     }
-  };
+  } catch (error) {
+    console.error("Fetch error:", error);
+  }
+};
 
   useEffect(() => {
     if (!selectedId) return;
     fetchTaskCounter();
   }, [selectedId]);
+
+ 
 
   const meters = [
   {
@@ -75,9 +81,9 @@ function MeterCard() {
     id: 3,
     title: "Text Drills",
     content: "Practice improves your touch typing.",
-     icon: TextIcon,
+    icon: TextIcon,
     value: taskCounter?.textDrillCount || 0,
-     color:'#FF6928'
+    color:'#FF6928'
   },
    {
     id: 3,
@@ -89,11 +95,12 @@ function MeterCard() {
   },
 ];
 
+
   return (
     <>
       {
         meters.map((meter, index) => (
-          <Box  key={meter.id} sx={{ paddingBottom: "5px" }}>
+          <Box  key={index} sx={{ paddingBottom: "5px" }}>
             <Box>
               <Box
                 component="section"
@@ -115,7 +122,7 @@ function MeterCard() {
                 >
                   <Box
                     sx={{
-                      background: meter.color,
+                      background:meter.color,
                       borderRadius: "50%",
                       width: 44,
                       height: 44,
@@ -160,12 +167,14 @@ function MeterCard() {
                   >
                     <CircularProgressbar
                       value={meter.value}
-                      text={`${meter.value}`}
+                      text={`${meter.value}%`}
                       strokeWidth={10}
+                     
                       styles={buildStyles({
-                        pathColor: meter.color,
+                        pathColor:`${meter.color}`,
                         textColor: "#000",
                         textSize: "24px",
+                      
                       })}
                     />
                   </div>

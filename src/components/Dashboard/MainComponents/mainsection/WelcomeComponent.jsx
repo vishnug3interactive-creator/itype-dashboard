@@ -1,9 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import welcome from "../../../../assets/images/mainicons/welcomelogo.png";
 import bgvector from "../../../../assets/images/Group.png"
 
 function WelcomeComponent() {
+
+  const[username,setUsername]=useState("");
+
+   useEffect(() => {
+      const storedData = localStorage.getItem("userData");
+  
+      if (storedData) {
+        try {
+          const parsedData = JSON.parse(storedData);
+          setUsername(parsedData);
+        } catch (error) {
+          console.error("Error parsing user data:", error);
+        }
+      } 
+    }, []);
+
 
   return (
     <Box
@@ -29,7 +45,7 @@ function WelcomeComponent() {
             component="h3"
             sx={{ fontWeight: "700", fontSize: "32px", color: "#ffffff",fontFamily:"Urbanist"}}
           >
-            Welcome back Patricia!
+            Welcome back {username.first_name}
           </Typography>
           <Typography
             variant="h6"

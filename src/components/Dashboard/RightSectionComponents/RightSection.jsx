@@ -1,10 +1,5 @@
 import { Box, Typography } from "@mui/material";
-import React from "react";
-import CircularProgress from "@mui/joy/CircularProgress";
-import profileicon from "../../../assets/images/righticons/probg.png";
-import dotframe from "../../../assets/images/righticons/dotframe.png";
-import greendot from "../../../assets/images/righticons/greendot.png";
-import reddot from "../../../assets/images/righticons/reddot.png";
+import React, { useEffect, useState } from "react";
 import Calender from "./Calender";
 import Divider from "@mui/material/Divider";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
@@ -12,56 +7,50 @@ import ProfileCard from "./ProfileCard";
 import { CircularProgressbar, buildStyles } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 import fillicon from "../../../assets/images/righticons/fillicon.png";
-
-// const profiles = [
-//   {
-//     id: "ST001",
-//     name: "James Cooper",
-//     age: 14,
-//     status: "Active",
-//     icon: profileicon,
-//     dotIcon: dotframe,
-//     statusIcon: greendot,
-//     color: "linear-gradient(to top, #922C88, #fc64efbe 80%)",
-//     textcolor: "#ffffff",
-//   },
-//   {
-//     id: "ST002",
-//     name: "Lisa Bryson",
-//     age: 10,
-//     status: "inactive",
-//     icon: profileicon,
-//     dotIcon: dotframe,
-//     statusIcon: reddot,
-//     color: "#ffffff",
-//     textcolor: "#000000",
-//   },
-//   {
-//     id: "ST003",
-//     name: "John Carter",
-//     age: 15,
-//     status: "Active",
-//     icon: profileicon,
-//     dotIcon: dotframe,
-//     statusIcon: greendot,
-//     color: "#ffffff",
-//     textcolor: "#000000",
-//   },
-// ];
+import { useSelector } from "react-redux";
+import { apiService } from "../../services/apiService";
+import dayjs from "dayjs";
 
 function RightSection() {
+  const selectedDate = useSelector((state) => state.selectedDate.date);
+  const selectedId = useSelector((state) => state.selectedStudent.selectedId);
+
+  const [performanceData, setPerformanceData] = useState("");
+
+  const getActivityPerformace = async () => {
+    try {
+      const result = await apiService.get(
+        `/get-activity-performance/${selectedId}/${selectedDate}`
+      );
+
+      if (result.success) {
+        setPerformanceData(result.data);
+      } else {
+        console.log("error fetching data");
+      }
+    } catch (error) {
+      console.error("Fetch error:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (!selectedId) return;
+    getActivityPerformace();
+  }, [selectedId, selectedDate]);
+
+
   return (
-      <Box sx={{ paddingLeft: "20px", paddingRight: "20px" }}>
+    <Box sx={{ paddingLeft: "20px", paddingRight: "20px" }}>
       <Box sx={{ paddingTop: "24px" }}>
-        <Typography sx={{ fontWeight: 700, fontSize: "18px",fontFamily:'Urbanist' }}>
+        <Typography
+          sx={{ fontWeight: 700, fontSize: "18px", fontFamily: "Urbanist" }}
+        >
           Student List
         </Typography>
       </Box>
 
       <Box>
-  
-          <ProfileCard  />
-   
+        <ProfileCard />
       </Box>
 
       <Box>
@@ -70,8 +59,11 @@ function RightSection() {
       <Divider />
       <Box>
         <Box sx={{ paddingTop: "24px" }}>
-          <Typography sx={{ fontWeight: 700, fontSize: "18px",fontFamily:'Urbanist' }}>
-            Today, 23 Jan 2024
+          <Typography
+            sx={{ fontWeight: 700, fontSize: "18px", fontFamily: "Urbanist" }}
+          >
+            {dayjs(selectedDate).isSame(dayjs(), "day") && "Today - "}
+            {dayjs(selectedDate).format("MMM DD, YYYY")}
           </Typography>
         </Box>
         <Box
@@ -90,11 +82,33 @@ function RightSection() {
               justifyContent: "flex-start",
             }}
           >
-            <Typography sx={{ fontWeight: 700, fontSize: "18px",fontFamily:'Urbanist' }}>
+            <Box>
               <img src={fillicon} style={{ marginRight: "10px" }}></img>
-              <span style={{ fontSize: "14px", fontWeight: "400",fontFamily:'Urbanist' }}>
-                10:32:10 - 10:32:50
-                <span style={{ fontWeight: "800",fontFamily:'Urbanist' }}>(0m 40s)</span>
+            </Box>
+            <Typography
+              sx={{ fontWeight: 700, fontSize: "18px", fontFamily: "Urbanist" }}
+            >
+              <span
+                style={{
+                  fontSize: "14px",
+                  fontWeight: "400",
+                  fontFamily: "Urbanist",
+                }}
+              >
+                {performanceData?.data?.text_drill_counts
+                  ?.total_spend_time_seconds ? (
+                  <span style={{ fontWeight: "800", fontFamily: "Urbanist" }}>
+                   Total time spend  (
+                    {Math.floor(
+                      performanceData.data.text_drill_counts
+                        .total_spend_time_seconds / 60
+                    )}
+                    m{" "}
+                    {performanceData.data.text_drill_counts
+                      .total_spend_time_seconds % 60}
+                    s)
+                  </span>
+                ) : null}
               </span>
             </Typography>
           </Box>
@@ -113,13 +127,25 @@ function RightSection() {
               sx={{ display: "flex", flexDirection: "column", padding: "8px" }}
             >
               <Box>
-                <Typography sx={{ fontWeight: 500, fontSize: "14px",fontFamily:'Urbanist' }}>
+                <Typography
+                  sx={{
+                    fontWeight: 500,
+                    fontSize: "14px",
+                    fontFamily: "Urbanist",
+                  }}
+                >
                   WPM
                 </Typography>
               </Box>
               <Box>
-                <Typography sx={{ fontWeight: 700, fontSize: "28px",fontFamily:'Urbanist' }}>
-                  50
+                <Typography
+                  sx={{
+                    fontWeight: 700,
+                    fontSize: "28px",
+                    fontFamily: "Urbanist",
+                  }}
+                >
+                  {performanceData?.data?.text_drill_counts?.word_per_min || 0}
                 </Typography>
               </Box>
             </Box>
@@ -128,13 +154,26 @@ function RightSection() {
               sx={{ display: "flex", flexDirection: "column", padding: "8px" }}
             >
               <Box>
-                <Typography sx={{ fontWeight: 500, fontSize: "14px",fontFamily:'Urbanist' }}>
+                <Typography
+                  sx={{
+                    fontWeight: 500,
+                    fontSize: "14px",
+                    fontFamily: "Urbanist",
+                  }}
+                >
                   Error
                 </Typography>
               </Box>
               <Box>
-                <Typography sx={{ fontWeight: 700, fontSize: "28px",fontFamily:'Urbanist' }}>
-                  8
+                <Typography
+                  sx={{
+                    fontWeight: 700,
+                    fontSize: "28px",
+                    fontFamily: "Urbanist",
+                  }}
+                >
+                  {performanceData?.data?.text_drill_counts?.avg_missed_key ||
+                    0}
                 </Typography>
               </Box>
             </Box>
@@ -143,21 +182,40 @@ function RightSection() {
               sx={{ display: "flex", flexDirection: "column", padding: "8px" }}
             >
               <Box>
-                <Typography sx={{ fontWeight: 500, fontSize: "14px",fontFamily:'Urbanist' }}>
+                <Typography
+                  sx={{
+                    fontWeight: 500,
+                    fontSize: "14px",
+                    fontFamily: "Urbanist",
+                  }}
+                >
                   Accuracy
                 </Typography>
               </Box>
               <Box>
-                <Box sx={{ fontWeight: 700 ,fontSize: "18px",fontFamily:'Urbanist'}}>
+                <Box
+                  sx={{
+                    fontWeight: 700,
+                    fontSize: "18px",
+                    fontFamily: "Urbanist",
+                  }}
+                >
                   <div style={{ width: 54, height: 54 }}>
                     <CircularProgressbar
-                      value={8}
-                      text="8%"
+                      value={
+                        performanceData?.data?.text_drill_counts
+                          ?.accuracy_percentage || 0
+                      }
+                      text={`${
+                        Number(
+                          performanceData?.data?.text_drill_counts
+                            ?.accuracy_percentage
+                        ) || 0
+                      }%`}
                       strokeWidth={10}
                       styles={buildStyles({
                         pathColor: "orange",
-                        textColor: "#000",             
-        
+                        textColor: "#000",
                       })}
                     />
                   </div>
@@ -168,7 +226,7 @@ function RightSection() {
         </Box>
       </Box>
     </Box>
-  )
+  );
 }
 
-export default RightSection
+export default RightSection;
