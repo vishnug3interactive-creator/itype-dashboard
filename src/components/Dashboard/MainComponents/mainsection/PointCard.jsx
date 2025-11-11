@@ -55,7 +55,7 @@ function PointCard() {
                 alignItems: "center",
                 justifyContent: "space-between",
                 gap: 4,
-                padding: "2rem",
+                padding: "0.865rem",
               }}
             >
               <Box

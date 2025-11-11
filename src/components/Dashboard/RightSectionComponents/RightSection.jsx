@@ -62,7 +62,7 @@ function RightSection() {
           <Typography
             sx={{ fontWeight: 700, fontSize: "18px", fontFamily: "Urbanist" }}
           >
-            {dayjs(selectedDate).isSame(dayjs(), "day") && "Today - "}
+            {dayjs(selectedDate).isSame(dayjs(),"day") && "Today - "}
             {dayjs(selectedDate).format("MMM DD, YYYY")}
           </Typography>
         </Box>
